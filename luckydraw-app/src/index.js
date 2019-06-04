@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './views/index/index';
 import * as serviceWorker from './serviceWorker';
+import 'amfe-flexible/index.js'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

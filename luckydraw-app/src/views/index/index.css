@@ -1,0 +1,213 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+}
+#root {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.box {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  position: relative;
+  text-align: center;
+}
+.content-box {
+  display: inline-block;
+  width: 8rem;
+  height: 8rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+#BagWheel{
+  width: 100%;
+  height: 100%;
+  /* background-image: url('../../../assets/activity/BagWheel/background.png'); */
+  background-color: rgb(49,49,49)
+}
+#BagWheel .title_bar{
+  width: 100%;
+  height: 3.5rem;
+  /* background-image: url('../../../assets/activity/BagWheel/title.png'); */
+  position: absolute;
+  top: 0;
+  z-index: 100;
+}
+
+#BagWheel .wheel_box{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 99;
+  top: 0;
+  background: url('./img/wheel.png')no-repeat center;
+  background-size: 100% 100%;
+}
+
+#BagWheel,#BagWheel .title_bar,#BagWheel .wheel_box{
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 100%;
+}
+
+/* 周围圆形小灯[根据需求来添加动画] */
+/* #BagWheel .wheel_box .wheel-loop{
+  position: absolute;
+  overflow: hidden;
+  width: 6.87rem;
+  height: 6.86rem;
+  top: .17rem;
+  left: .165rem;
+  background-image: url('../../../assets/activity/BagWheel/wheel_outer.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+} */
+#BagWheel .wheel-goods_box,#BagWheel .wheel-btn_box{
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+#BagWheel .wheel-item{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 扇形显示：用于在抽奖结束后的提示效果 */
+#BagWheel .wheel-item .sector{
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+#BagWheel .wheel-item .sector .sectorCss{
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 50%;
+  transform-origin: 0% 100%;
+}
+
+/* 扇形排列奖品展示 */
+#BagWheel .wheel-goods{
+  position: relative;
+  display: block;
+  width: 1.5rem;
+  height: 2.5rem;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: .8rem;
+  transform-origin: 50% 3.6rem;
+}
+
+/* 文字加边框 */
+#BagWheel .wheel-goods .wg-text{
+  font-size: .3rem;
+  color: #fff;
+  text-shadow: rgb(176, 73, 28) 1px 0 0, rgb(176, 73, 28) 0 1px 0, rgb(176, 73, 28) -1px 0 0, rgb(176, 73, 28) 0 -1px 0;
+  white-space: initial;
+}
+
+#BagWheel .wheel-goods .wg-icon{
+  width: 1rem;
+  height: 1rem;
+  border-radius: 5px;
+  position: relative;
+  display: inline-block;
+}
+#BagWheel .wheel-goods .wg-icon img{
+  max-width: 65%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 按钮盒子样式，使用层级来做重叠 */
+#BagWheel .wheel_btn{
+  background: url('./img/wheel_btn.png');
+  background-size: 90% 90%;
+  z-index: 101;
+  transition: transform 6s ease;
+}
+#BagWheel .wheel_btnTop{
+  /* background: url('./img/wheel_btn.png'); */
+  z-index: 110;
+}
+#BagWheel .wheel-btn_box .btn{
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+/* 转盘周围闪闪的点 */
+
+#BagWheel .wheel_box .wheel-loop{
+  position: absolute;
+  overflow: hidden;
+  width: 7.6rem;
+  height: 7.6rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+#BagWheel .wheel_box .wheel-loop .loop{
+  position:absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+#BagWheel .wheel_box .wheel-loop .dot1::after{
+  width: .3rem;
+  height: .3rem;
+  background: url('./img/yellow_d.png') no-repeat center;
+  background-size: 100% 100%;
+}
+#BagWheel .wheel_box .wheel-loop .dot2::after{
+  width: .4rem;
+  height: .4rem;
+  background: url('./img/red_d.png') no-repeat center;
+  background-size: 100% 100%;
+}
+#BagWheel .wheel_box .wheel-loop .loop::after{
+  content: "";
+  position:relative; 
+  margin: 0 auto;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  transform-origin: 50% 3.4rem;
+}
+
