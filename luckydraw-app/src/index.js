@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './views/index/index';
+// import App from './views/diskLuckydraw/index';
+import App from './views/luckydraw2/index';
 import * as serviceWorker from './serviceWorker';
 import 'amfe-flexible/index.js'
 

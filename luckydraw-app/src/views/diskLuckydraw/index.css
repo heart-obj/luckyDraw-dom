@@ -4,6 +4,7 @@
 }
 body {
   overflow: hidden;
+  
 }
 #root {
   width: 100%;
@@ -33,7 +34,7 @@ body {
   width: 100%;
   height: 100%;
   /* background-image: url('../../../assets/activity/BagWheel/background.png'); */
-  background-color: rgb(49,49,49)
+  /* background-color: rgb(49,49,49) */
 }
 #BagWheel .title_bar{
   width: 100%;
@@ -117,17 +118,22 @@ body {
   margin: 0 auto;
   text-align: center;
   padding-top: .8rem;
-  transform-origin: 50% 3.6rem;
+  transform-origin: 50% 4rem;
 }
 
 /* 文字加边框 */
 #BagWheel .wheel-goods .wg-text{
-  font-size: .3rem;
-  color: #fff;
-  text-shadow: rgb(176, 73, 28) 1px 0 0, rgb(176, 73, 28) 0 1px 0, rgb(176, 73, 28) -1px 0 0, rgb(176, 73, 28) 0 -1px 0;
-  white-space: initial;
-}
+  width: 12px;
+  height: 100%;
+  overflow: hidden;
+  display: inline-block;
+  font-size: 0.3rem;
+  color: #B62F02;
+  /* text-shadow: rgb(176, 73, 28) 1px 0 0, rgb(176, 73, 28) 0 1px 0, rgb(176, 73, 28) -1px 0 0, rgb(176, 73, 28) 0 -1px 0; */
+  /* white-space: initial; */
+  text-align: center;
 
+}
 #BagWheel .wheel-goods .wg-icon{
   width: 1rem;
   height: 1rem;
@@ -166,14 +172,26 @@ body {
   bottom: 0;
   margin: auto;
 }
-
+#BagWheel .canvas_yuan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 6.8rem;
+  height: 6.8rem; 
+}
+#canvas_yuan {
+  display: block;
+}
 /* 转盘周围闪闪的点 */
 
 #BagWheel .wheel_box .wheel-loop{
   position: absolute;
   overflow: hidden;
-  width: 7.6rem;
-  height: 7.6rem;
+  width: 7.8rem;
+  height: 7.8rem;
   top: 0;
   left: 0;
   right: 0;
@@ -188,18 +206,6 @@ body {
   width: 100%;
   height: 100%;
 }
-#BagWheel .wheel_box .wheel-loop .dot1::after{
-  width: .3rem;
-  height: .3rem;
-  background: url('./img/yellow_d.png') no-repeat center;
-  background-size: 100% 100%;
-}
-#BagWheel .wheel_box .wheel-loop .dot2::after{
-  width: .4rem;
-  height: .4rem;
-  background: url('./img/red_d.png') no-repeat center;
-  background-size: 100% 100%;
-}
 #BagWheel .wheel_box .wheel-loop .loop::after{
   content: "";
   position:relative; 
@@ -208,6 +214,21 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  transform-origin: 50% 3.4rem;
+  transform-origin: 50% 3.8rem;
+}
+#BagWheel .wheel_box .wheel-loop .dot1::after{
+  width: .4rem;
+  height: .4rem;
+  box-shadow: 0 0 10px rgba(253, 247, 2, .5);
+  border-radius: 50%;
+  background: rgba(253, 247, 2, 1);
+}
+#BagWheel .wheel_box .wheel-loop .dot2::after{
+  margin-top: 0.02rem;
+  width: .35rem;
+  height: .35rem;
+  box-shadow: 0 0 10px rgba(255, 255, 255, .5);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 1);
 }
 
