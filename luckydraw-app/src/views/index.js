@@ -8,6 +8,7 @@ class IndexView extends Component {
       type: 1
     }
   }
+  // 组件渲染后调用
   componentDidMount () {
     console.log(this.getParams('id'))
     this.setState({
