@@ -1,10 +1,9 @@
 import axios from 'axios'
-import Qs from 'qs'
-if (process.env.NODE_ENV == 'development'){
+if (process.env.NODE_ENV === 'development'){
   axios.defaults.baseURL = '/api';
-} else if (process.env.NODE_ENV == 'debug'){
+} else if (process.env.NODE_ENV === 'debug'){
   axios.defaults.baseURL = '/api';
-} else if (process.env.NODE_ENV == 'production') { 
+} else if (process.env.NODE_ENV === 'production') { 
   axios.defaults.baseURL = 'http://***********/';
 }
 // 设置超时时间
@@ -12,11 +11,11 @@ axios.defaults.timeout = 10000;
 // 设置post 请求头
 axios.defaults.headers.post['Content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 // 对接接口
-export function request ({methods, url, params}) {
+export function request ({methods, url, params, token}) {
   if(methods === 'get') {
-    return get(url, params)
+    return get(url, params, token)
   } else if(methods === 'post') {
-    return post(url, params)
+    return post(url, params, token)
   }
 }
 /**
@@ -24,11 +23,13 @@ export function request ({methods, url, params}) {
  * @param {*} url 
  * @param {*} params 
  */
-function get (url, params) {
+function get (url, params, token) {
   return new Promise((resolve, reject) => {
-    axios.get(url, params).then(res => {
+    axios.defaults.headers.common['token'] = token;
+    console.log(params)
+    axios.get(url, {params:params}).then(res => {
       resolve(res) 
-    }).cath(err => {
+    }).catch(err => {
       reject(err)
     })
   })
@@ -38,11 +39,12 @@ function get (url, params) {
  * @param {*} url 
  * @param {*} params 
  */
-function post (url, params) {
+function post (url, params, token) {
   return new Promise((resolve, reject) => {
-    axios.post(url, params).then(res => {
+    axios.defaults.headers.common['token'] = token;
+    axios.post(url, {params:params}).then(res => {
       resolve(res)
-    }).cath(err => {
+    }).catch(err => {
       reject(err)
     })
   })

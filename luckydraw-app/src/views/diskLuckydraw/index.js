@@ -1,106 +1,46 @@
 import React, { Component } from 'react';
+import { menu_random } from '../../api/api';
 import './index.css'
 class luckIndex extends Component {
   constructor (props) {
-    super (props);
+    super (props)
+    console.log(props)
     this.state = {
-      wheelGoods: [
-        {
-          id: 1,
-          name: '五香兔腿'
-        },
-        {
-          id: 2,
-          name: '黄瓜炒肉'
-        },
-        {
-          id: 3,
-          name: '广式腊饭'
-        },
-        {
-          id: 4,
-          name: '意大利面'
-        },
-        {
-          id: 5,
-          name: '小笼包'
-        },
-        {
-          id: 6,
-          name: '炸鸡肉'
-        },
-        {
-          id: 7,
-          name: '麻辣香肠麻辣香肠'
-        },
-        {
-          id: 8,
-          name: '鱼香茄子'
-        },
-        {
-          id: 9,
-          name: '鱼香茄子'
-        },
-        {
-          id: 10,
-          name: '鱼香茄子'
-        },
-        {
-          id: 11,
-          name: '鱼香茄子'
-        },
-        {
-          id: 12,
-          name: '鱼香茄子'
-        },
-        {
-          id: 13,
-          name: '鱼香茄子'
-        },
-        {
-          id: 14,
-          name: '鱼香茄子'
-        },
-        {
-          id: 15,
-          name: '鱼香茄子'
-        },
-        {
-          id: 16,
-          name: '鱼香茄子'
-        }
-      ], // 大转盘物品列表
+      wheelGoods: props.goodsList, // 大转盘物品列表
+      shop_id: props.shop_id,
       btnEnable: true // 反正用户频繁点击
     };
   }
   // 在渲染前调用,在客户端也在服务端(用于数据初始化)。
-  componentWillMount () {
-    
-  }
+  componentWillMount () {}
   componentDidMount () {
-    this.setCanvas(this.state.wheelGoods.length)
+    if (this.state.wheelGoods) {
+      this.setCanvas(this.state.wheelGoods.length)
+    }
   }
   rnd = (n, m) => {
     var random = Math.floor(Math.random()*(m-n+1)+n);
     return random;
   }
-  getPrize = () => {
+  getPrize = (randomNum) => {
     clearTimeout(this.timer);
-    if (this.state.btnEnable) {
-        this.setState({ btnEnable: false })
-        //禁止用户连续点击
-        var randomNum = this.rnd(1, this.state.wheelGoods.length);
-        console.log(randomNum)
-        this.animation(randomNum * (360 / this.state.wheelGoods.length));
-        setTimeout(() => {
-          // 指定奖品的扇形添加动画
-          // goalSectorEle.style.backgroundColor = '#fffdb6'
-          console.log(`恭喜您获得了${this.state.wheelGoods[randomNum - 1].name}`);
-        }, 6000);
+    if (this.state.btnEnable && this.state.wheelGoods) {
+      // alert(window.action.login())
+      this.setState({ btnEnable: false })
+      //禁止用户连续点击
+      this.animation((randomNum+1)* (360 / this.state.wheelGoods.length));
+      setTimeout(() => {
+        // 指定奖品的扇形添加动画
+        if (this.getQueryVariable('type') === 'Android') {
+          window.action.showWindow(this.state.wheelGoods[randomNum]);
+        } else if (this.getQueryVariable('type') === 'IOS') {
+          // 返回ios数据
+        }
+      }, 6000);
     }
     this.timer = setTimeout(() => {
-        this.setState({ btnEnable: true })
-    }, 3000);
+      this.setState({ btnEnable: true })
+    }, 6000);
   }
   animation = (circle) => {
     //周围小球交换显示
@@ -137,14 +77,14 @@ class luckIndex extends Component {
       return (<i className="loop dot1" key={ index } style={{transform: `rotate(${index * 12}deg)`}}></i>)
     } 
   }
-  wheelItemsEle = (datas) => {
+  wheelItemsEle = (datas, i) => {
     return (
-      <div className="wheel-item" key= { datas.id } >
+      <div className="wheel-item" key= { i } >
         <div className="sector" >
-          <div className="sectorCss" ref= {`sector${datas.id}`
-          } style= {{transform: `rotate(${datas.id * (360 / this.state.wheelGoods.length) - 15}deg) skewY(-30deg)` }}></div>
+          <div className="sectorCss" ref= {`sector${datas}`
+          } style= {{transform: `rotate(${i * (360 / this.state.wheelGoods.length) - 15}deg) skewY(-30deg)` }}></div>
         </div>
-        <div className= "wheel-goods" style= {{transform: `rotate(${datas.id * (360 / this.state.wheelGoods.length)}deg)` }}>
+        <div className= "wheel-goods" style= {{transform: `rotate(${i * (360 / this.state.wheelGoods.length)}deg)` }}>
           <h3 className="wg-text" > { datas.name } </h3>
         </div>
       </div>
@@ -179,6 +119,35 @@ class luckIndex extends Component {
       ctx.restore();
     } 
   }
+  getQueryVariable (variable) {
+    let query = window.location.search.substring(1);
+    let vars = query.split("&");
+    for (let i=0;i<vars.length;i++) {
+      let pair = vars[i].split("=");
+      if(pair[0] === variable){return pair[1];}
+    }
+    return(false);
+  }
+  getRandomNum () {
+    let _this = this
+    if (_this.state.btnEnable) {
+      menu_random ({
+        shop_id: _this.state.shop_id,
+        type: 1
+      }).then(res => {
+        let activedGoodsid = res.data.data.data.id
+        _this.state.wheelGoods.map((item, i) => {
+          if (item.id === activedGoodsid) {
+            console.log(item.id)
+            _this.getPrize (i)
+          }
+          return item.id
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
   render() {
     return (
       <div className='box' id='BagWheel'>
@@ -190,9 +159,9 @@ class luckIndex extends Component {
             <div className='canvas_yuan' id='canvasBox'>
               <canvas id='canvas_yuan'></canvas>
             </div>
-            <div className="wheel-goods_box" > {this.state.wheelGoods.map(this.wheelItemsEle)} </div>
+            <div className="wheel-goods_box" > {this.state.wheelGoods ? this.state.wheelGoods.map((item, i) => this.wheelItemsEle(item, i+1)) : null} </div>
             <div className="wheel-btn_box flex-center">
-              <div className="btn wheel_btnTop" onClick={ this.getPrize }> </div>
+              <div className="btn wheel_btnTop" onClick={() => this.getRandomNum() }> </div>
                 <div className="btn wheel_btn" ref="wheel_btn">
               </div>
             </div>

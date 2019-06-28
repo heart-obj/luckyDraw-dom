@@ -8,7 +8,7 @@
     "axios": "^0.18.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,5 +30,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://www.tenxunyun.xyz",
+      "changeOrigin": true
+    }
+  },
+  "devServer": {
+    "disableHostCheck": true
   }
 }

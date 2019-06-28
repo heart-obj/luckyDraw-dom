@@ -1,64 +1,15 @@
 import React, { Component } from 'react';
 import './index.css';
-
+import { menu_random } from '../../api/api';
 class Lucky2 extends Component {
   constructor (props) {
     super (props)
+    console.log(props)
     this.state = {
-      list: [
-        {
-          id: 1,
-          name: '肉丝炒饭1',
-          imgsrc: ''
-        },
-        {
-          id: 2,
-          name: '肉丝炒饭2',
-          imgsrc: ''
-        },
-        {
-          id: 3,
-          name: '肉丝炒饭3',
-          imgsrc: ''
-        },
-        {
-          id: 4,
-          name: '肉丝炒饭4',
-          imgsrc: ''
-        },
-        {
-          id: 5,
-          name: '肉丝炒饭5',
-          imgsrc: ''
-        },
-        {
-          id: 6,
-          name: '肉丝炒饭6',
-          imgsrc: ''
-        },
-        {
-          id: 7,
-          name: '肉丝炒饭7',
-          imgsrc: ''
-        },
-        {
-          id: 8,
-          name: '肉丝炒饭8',
-          imgsrc: ''
-        },
-        {
-          id: 9,
-          name: '肉丝炒饭9',
-          imgsrc: ''
-        },
-        {
-          id: 10,
-          name: '肉丝炒饭10',
-          imgsrc: ''
-        }
-      ],
+      list: props.goodsList,
+      shop_id: props.shop_id,
       // 被选中的格子的ID
-      activedId: 0,
+      activedId: props.goodsList[0].id,
       activedNum: 0,
       // 中奖ID
       prizeId: null,
@@ -83,7 +34,6 @@ class Lucky2 extends Component {
 
   }
   handleBegin () {
-    console.log(111)
     if (!this.state.isRolling) {
       // 点击抽奖之后，我个人做法是将于九宫格有关的状态都还原默认
       this.setState({
@@ -95,13 +45,11 @@ class Lucky2 extends Component {
         isRolling: true
       }, () => {
         // 状态还原之后才能开始真正的抽奖
-        this.handlePlay()
+        this.getRandomNum()
       })
     }
   }
-  handlePlay () {
-    let prize = Math.floor(Math.random() * 10)
-    console.log(prize)
+  handlePlay (prize) {
     this.setState({
       prizeId: this.state.list[prize].id,
       activedId: 0,
@@ -117,6 +65,11 @@ class Lucky2 extends Component {
       if (this.state.activedId === this.state.prizeId && this.state.actTimes > this.state.times) {
         // 符合上述所有条件时才是中奖的时候，两个ID相同并且动画执行的次数大于(或等于也行)设定的最小次数
         clearInterval(loopTime)
+        if (this.getQueryVariable('type') === 'Android') {
+          window.action.showWindow(this.state.list[prize]);
+        } else if (this.getQueryVariable('type') === 'IOS') {
+          // ios
+        }
         console.log(this.state.activedId)
         this.setState({
           isRolling: false
@@ -151,6 +104,35 @@ class Lucky2 extends Component {
       })
     },40)
   }
+  getQueryVariable (variable) {
+    let query = window.location.search.substring(1);
+    let vars = query.split("&");
+    for (let i=0;i<vars.length;i++) {
+      let pair = vars[i].split("=");
+      if(pair[0] === variable){return pair[1];}
+    }
+    return(false);
+  }
+  getRandomNum () {
+    let _this = this
+    if (_this.state.isRolling) {
+      menu_random ({
+        shop_id: this.state.shop_id,
+        type: 1
+      }).then(res => {
+        let activedGoodsid = res.data.data.data.id
+        this.state.list.map((item, i) => {
+          if (item.id === activedGoodsid) {
+            console.log(item.id)
+            _this.handlePlay (i)
+          }
+          return item.id
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
   render () {
     return (
       <div className = 'box'>
@@ -159,49 +141,49 @@ class Lucky2 extends Component {
           <div className = 'goods-box'>
             <div className = 'goods-row'>
               <div className={`${this.state.activedId === this.state.list[0].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[0].imgsrc } alt=""/>
+                <img src={ this.state.list[0].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[0].name }</span>
               </div>
               <div className={`${this.state.activedId === this.state.list[1].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[1].imgsrc } alt=""/>
+                <img src={ this.state.list[1].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[1].name }</span>
               </div>
               <div className={`${this.state.activedId === this.state.list[2].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[2].imgsrc } alt=""/>
+                <img src={ this.state.list[2].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[2].name }</span>
               </div>
             </div>
             <div className = 'goods-row'>
             <div className={`${this.state.activedId === this.state.list[9].id ? 'select-goods' : ''} ${'goods-col'}`}>
-              <img src={ this.state.list[9].imgsrc } alt=""/>
+              <img src={ this.state.list[9].image } alt=""/>
               <span className='goods-text'>{ this.state.list[9].name }</span>
             </div>
               <div className={`${this.state.activedId === this.state.list[3].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[3].imgsrc } alt=""/>
+                <img src={ this.state.list[3].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[3].name }</span>
               </div>
             </div>
             <div className = 'goods-row'>
             <div className={`${this.state.activedId === this.state.list[8].id ? 'select-goods' : ''} ${'goods-col'}`}>
-              <img src={ this.state.list[8].imgsrc } alt=""/>
+              <img src={ this.state.list[8].image } alt=""/>
               <span className='goods-text'>{ this.state.list[8].name }</span>
             </div>
               <div className={`${this.state.activedId === this.state.list[4].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[4].imgsrc } alt=""/>
+                <img src={ this.state.list[4].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[4].name }</span>
               </div>
             </div>
             <div className = 'goods-row'>
               <div className={`${this.state.activedId === this.state.list[7].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[7].imgsrc } alt=""/>
+                <img src={ this.state.list[7].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[7].name }</span>
               </div>
               <div className={`${this.state.activedId === this.state.list[6].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[6].imgsrc } alt=""/>
+                <img src={ this.state.list[6].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[6].name }</span>
               </div>
               <div className={`${this.state.activedId === this.state.list[5].id ? 'select-goods' : ''} ${'goods-col'}`}>
-                <img src={ this.state.list[5].imgsrc } alt=""/>
+                <img src={ this.state.list[5].image } alt=""/>
                 <span className='goods-text'>{ this.state.list[5].name }</span>
               </div>
             </div>

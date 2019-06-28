@@ -132,6 +132,7 @@ body {
   /* text-shadow: rgb(176, 73, 28) 1px 0 0, rgb(176, 73, 28) 0 1px 0, rgb(176, 73, 28) -1px 0 0, rgb(176, 73, 28) 0 -1px 0; */
   /* white-space: initial; */
   text-align: center;
+  word-wrap:break-word;
 
 }
 #BagWheel .wheel-goods .wg-icon{
