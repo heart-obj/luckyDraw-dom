@@ -24,18 +24,14 @@ class IndexView extends Component {
   componentDidMount () {}
   getDatalist () {
     const _this = this
-    // let token = window.action.getToken()
-    let token = 'window.action.getToken()'
-    // let lng = window.action.getLng()
-    let lng = 104.103571
-    // let lat = window.action.getLat()
-    let lat = 30.644828
+    let token = _this.getQueryVariable('token')
+    let lng = _this.getQueryVariable('lng')
+    let lat =  _this.getQueryVariable('lat')
     loadGetGoods({
       lng: lng,
       lat: lat,
       type: this.getQueryVariable('id')
     }, token).then(res => {
-      console.log(res.data.data)
       _this.setState({
         goodsList: res.data.data.list,
         isLoding: true,

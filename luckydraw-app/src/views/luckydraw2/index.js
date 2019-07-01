@@ -66,7 +66,8 @@ class Lucky2 extends Component {
         // 符合上述所有条件时才是中奖的时候，两个ID相同并且动画执行的次数大于(或等于也行)设定的最小次数
         clearInterval(loopTime)
         if (this.getQueryVariable('type') === 'Android') {
-          window.action.showWindow(this.state.list[prize]);
+          console.log(JSON.stringify(this.state.list[prize]).toString())
+          window.action.showWindow(JSON.stringify(this.state.list[prize]).toString());
         } else if (this.getQueryVariable('type') === 'IOS') {
           // ios
         }

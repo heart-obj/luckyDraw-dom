@@ -32,7 +32,8 @@ class luckIndex extends Component {
       setTimeout(() => {
         // 指定奖品的扇形添加动画
         if (this.getQueryVariable('type') === 'Android') {
-          window.action.showWindow(this.state.wheelGoods[randomNum]);
+          console.log(JSON.stringify(this.state.wheelGoods[randomNum]).toString())
+          window.action.showWindow(JSON.stringify(this.state.wheelGoods[randomNum]).toString());
         } else if (this.getQueryVariable('type') === 'IOS') {
           // 返回ios数据
         }
