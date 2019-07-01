@@ -65,13 +65,13 @@ class Lucky2 extends Component {
       if (this.state.activedId === this.state.prizeId && this.state.actTimes > this.state.times) {
         // 符合上述所有条件时才是中奖的时候，两个ID相同并且动画执行的次数大于(或等于也行)设定的最小次数
         clearInterval(loopTime)
+        let selectData = JSON.stringify(this.state.list[prize]).toString()
         if (this.getQueryVariable('type') === 'Android') {
-          console.log(JSON.stringify(this.state.list[prize]).toString())
-          window.action.showWindow(JSON.stringify(this.state.list[prize]).toString());
+          window.action.showWindow(selectData);
         } else if (this.getQueryVariable('type') === 'IOS') {
           // ios
+          window.webkit.messageHandlers.payInfoJavascriptHandler.postMessage(selectData)
         }
-        console.log(this.state.activedId)
         this.setState({
           isRolling: false
         })

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { menu_random } from '../../api/api';
 import './index.css'
+
 class luckIndex extends Component {
   constructor (props) {
     super (props)
@@ -31,11 +32,13 @@ class luckIndex extends Component {
       this.animation((randomNum+1)* (360 / this.state.wheelGoods.length));
       setTimeout(() => {
         // 指定奖品的扇形添加动画
+        let selectData = JSON.stringify(this.state.wheelGoods[randomNum]).toString()
         if (this.getQueryVariable('type') === 'Android') {
-          console.log(JSON.stringify(this.state.wheelGoods[randomNum]).toString())
-          window.action.showWindow(JSON.stringify(this.state.wheelGoods[randomNum]).toString());
+          // 安卓调用
+          window.action.showWindow(selectData);
         } else if (this.getQueryVariable('type') === 'IOS') {
           // 返回ios数据
+          window.webkit.messageHandlers.payInfoJavascriptHandler.postMessage(selectData)
         }
       }, 6000);
     }
