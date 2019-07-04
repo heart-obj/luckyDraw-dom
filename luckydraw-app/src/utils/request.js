@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === 'development'){
 } else if (process.env.NODE_ENV === 'debug'){
   axios.defaults.baseURL = '/api';
 } else if (process.env.NODE_ENV === 'production') { 
-  axios.defaults.baseURL = 'http://***********/';
+  axios.defaults.baseURL = '';
 }
 // 设置超时时间
 axios.defaults.timeout = 10000;

@@ -18,21 +18,18 @@ class Lucky2 extends Component {
       // 当前动画次数
       actTimes: 0,
       // 是否正在抽奖
-      isRolling: false
+      isRolling: false,
+      selectGoodsData: null
     }
   }
   /**
    * dom未渲染（一般用于数据初始）
    */
-  componentWillMount () {
-
-  }
+  componentWillMount () { }
   /**
    * dom 渲染完成后立即执行
    */
-  componentDidMount () {
-
-  }
+  componentDidMount () {}
   handleBegin () {
     if (!this.state.isRolling) {
       // 点击抽奖之后，我个人做法是将于九宫格有关的状态都还原默认
@@ -65,8 +62,9 @@ class Lucky2 extends Component {
       if (this.state.activedId === this.state.prizeId && this.state.actTimes > this.state.times) {
         // 符合上述所有条件时才是中奖的时候，两个ID相同并且动画执行的次数大于(或等于也行)设定的最小次数
         clearInterval(loopTime)
-        let selectData = JSON.stringify(this.state.list[prize]).toString()
+        let selectData = JSON.stringify(this.state.selectGoodsData).toString()
         if (this.getQueryVariable('type') === 'Android') {
+          console.log(selectData)
           window.action.showWindow(selectData);
         } else if (this.getQueryVariable('type') === 'IOS') {
           // ios
@@ -105,6 +103,10 @@ class Lucky2 extends Component {
       })
     },40)
   }
+  /**
+   * 获取url参数
+   * @param {*} variable 
+   */
   getQueryVariable (variable) {
     let query = window.location.search.substring(1);
     let vars = query.split("&");
@@ -114,6 +116,9 @@ class Lucky2 extends Component {
     }
     return(false);
   }
+  /**
+   * 后台获取随机数据
+   */
   getRandomNum () {
     let _this = this
     if (_this.state.isRolling) {
@@ -122,6 +127,9 @@ class Lucky2 extends Component {
         type: 1
       }).then(res => {
         let activedGoodsid = res.data.data.data.id
+        _this.setState({
+          selectGoodsData: res.data.data.data
+        })
         this.state.list.map((item, i) => {
           if (item.id === activedGoodsid) {
             console.log(item.id)

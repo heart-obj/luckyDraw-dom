@@ -32,7 +32,7 @@ class luckIndex extends Component {
       this.animation((randomNum+1)* (360 / this.state.wheelGoods.length));
       setTimeout(() => {
         // 指定奖品的扇形添加动画
-        let selectData = JSON.stringify(this.state.wheelGoods[randomNum]).toString()
+        let selectData = JSON.stringify(this.state.selectGoodsData).toString()
         if (this.getQueryVariable('type') === 'Android') {
           // 安卓调用
           window.action.showWindow(selectData);
@@ -81,6 +81,10 @@ class luckIndex extends Component {
       return (<i className="loop dot1" key={ index } style={{transform: `rotate(${index * 12}deg)`}}></i>)
     } 
   }
+  /**
+   * datas 数据
+   * i 当前位置0，1，2....
+   */
   wheelItemsEle = (datas, i) => {
     return (
       <div className="wheel-item" key= { i } >
@@ -123,6 +127,10 @@ class luckIndex extends Component {
       ctx.restore();
     } 
   }
+  /**
+   * 获取url参数
+   * @param {*} variable 
+   */
   getQueryVariable (variable) {
     let query = window.location.search.substring(1);
     let vars = query.split("&");
@@ -132,6 +140,10 @@ class luckIndex extends Component {
     }
     return(false);
   }
+  /**
+   * 后台返回
+   * 获取随机彩品
+   */
   getRandomNum () {
     let _this = this
     if (_this.state.btnEnable) {
@@ -140,6 +152,9 @@ class luckIndex extends Component {
         type: 1
       }).then(res => {
         let activedGoodsid = res.data.data.data.id
+        _this.setState({
+          selectGoodsData: res.data.data.data
+        })
         _this.state.wheelGoods.map((item, i) => {
           if (item.id === activedGoodsid) {
             console.log(item.id)

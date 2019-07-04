@@ -27,6 +27,9 @@ class IndexView extends Component {
     let token = _this.getQueryVariable('token')
     let lng = _this.getQueryVariable('lng')
     let lat =  _this.getQueryVariable('lat')
+    // let token = '_this.getQueryVariable()'
+    // let lng = 103.864083
+    // let lat =  30.782041
     loadGetGoods({
       lng: lng,
       lat: lat,
