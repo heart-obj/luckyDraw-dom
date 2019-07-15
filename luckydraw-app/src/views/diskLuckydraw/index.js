@@ -9,6 +9,7 @@ class luckIndex extends Component {
     this.state = {
       wheelGoods: props.goodsList, // 大转盘物品列表
       shop_id: props.shop_id,
+      selectGoodsData: null, // 选中的商品
       btnEnable: true // 反正用户频繁点击
     };
   }
@@ -33,6 +34,7 @@ class luckIndex extends Component {
       setTimeout(() => {
         // 指定奖品的扇形添加动画
         let selectData = JSON.stringify(this.state.selectGoodsData).toString()
+        console.log(selectData)
         if (this.getQueryVariable('type') === 'Android') {
           // 安卓调用
           window.action.showWindow(selectData);
@@ -149,7 +151,7 @@ class luckIndex extends Component {
     if (_this.state.btnEnable) {
       menu_random ({
         shop_id: _this.state.shop_id,
-        type: 1
+        type: 2
       }).then(res => {
         let activedGoodsid = res.data.data.data.id
         _this.setState({
@@ -180,7 +182,7 @@ class luckIndex extends Component {
             </div>
             <div className="wheel-goods_box" > {this.state.wheelGoods ? this.state.wheelGoods.map((item, i) => this.wheelItemsEle(item, i+1)) : null} </div>
             <div className="wheel-btn_box flex-center">
-              <div className="btn wheel_btnTop" onClick={() => this.getRandomNum() }> </div>
+              <div className="btn wheel_btnTop" onClick={() => this.getRandomNum() }>转一下</div>
                 <div className="btn wheel_btn" ref="wheel_btn">
               </div>
             </div>

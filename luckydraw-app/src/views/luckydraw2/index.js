@@ -4,7 +4,6 @@ import { menu_random } from '../../api/api';
 class Lucky2 extends Component {
   constructor (props) {
     super (props)
-    console.log(props)
     this.state = {
       list: props.goodsList,
       shop_id: props.shop_id,
@@ -63,8 +62,8 @@ class Lucky2 extends Component {
         // 符合上述所有条件时才是中奖的时候，两个ID相同并且动画执行的次数大于(或等于也行)设定的最小次数
         clearInterval(loopTime)
         let selectData = JSON.stringify(this.state.selectGoodsData).toString()
+        console.log(selectData)
         if (this.getQueryVariable('type') === 'Android') {
-          console.log(selectData)
           window.action.showWindow(selectData);
         } else if (this.getQueryVariable('type') === 'IOS') {
           // ios
@@ -144,7 +143,7 @@ class Lucky2 extends Component {
   }
   render () {
     return (
-      <div className = 'box'>
+      <div className = 'luckydraw2-box'>
         <div className = 'box-col'>
           <div className = 'goods-btn' onClick = {() => this.handleBegin()}>转一下</div>
           <div className = 'goods-box'>

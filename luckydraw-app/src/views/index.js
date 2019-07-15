@@ -7,17 +7,15 @@ class IndexView extends Component {
   constructor (props) {
     super (props)
     this.state = {
-      id: 1,
+      id: null,
       goodsList: [],
       shop_id: null,
-      isLoding: false
+      isLoding: false,
+      shop_name: '' // 商品名称
     }
   }
   // 组件挂载到DOM前调用
   componentWillMount () {
-    this.setState({
-      id: this.getQueryVariable('id')
-    })
     this.getDatalist()
   }
   // 组件渲染后调用
@@ -27,9 +25,6 @@ class IndexView extends Component {
     let token = _this.getQueryVariable('token')
     let lng = _this.getQueryVariable('lng')
     let lat =  _this.getQueryVariable('lat')
-    // let token = '_this.getQueryVariable()'
-    // let lng = 103.864083
-    // let lat =  30.782041
     loadGetGoods({
       lng: lng,
       lat: lat,
@@ -38,7 +33,8 @@ class IndexView extends Component {
       _this.setState({
         goodsList: res.data.data.list,
         isLoding: true,
-        shop_id: res.data.data.shop_id
+        shop_id: res.data.data.shop_id,
+        shop_name: res.data.data.shop_name
       })
     })
   }
@@ -62,14 +58,25 @@ class IndexView extends Component {
     return(false);
   }
   render () {
-    console.log(this.state.goodsList)
     if (this.state.isLoding && this.state.goodsList) {
-      return (
-        <div style={{width: '100%',height: '100%',background:'#fff'}}>
-          {(this.state.id - 0 ) === 1 ? (<LuckyDraw2 goodsList={this.state.goodsList} shop_id={this.state.shop_id}></LuckyDraw2>) : (<LuckyDraw goodsList={this.state.goodsList} shop_id={this.state.shop_id}></LuckyDraw>)}
-        </div>
-      )
-    }else {
+      if ((this.getQueryVariable('id') - 0 ) === 1) {
+        return (
+          <div className='luckydraw-box'>
+            <div className='luckydraw-h'></div>
+            <div className='luckydraw-text'>{this.state.shop_name}</div>
+            <LuckyDraw2 goodsList={this.state.goodsList} shop_id={this.state.shop_id}></LuckyDraw2>
+          </div>
+        )
+      } else if ((this.getQueryVariable('id') - 0 ) === 2) {
+        return (
+          <div className='luckydraw-box'>
+            <div className='luckydraw-h'></div>
+            <div className='luckydraw-text'>{this.state.shop_name}</div>
+            <LuckyDraw goodsList={this.state.goodsList} shop_id={this.state.shop_id}></LuckyDraw>
+          </div>
+        )
+      }
+    } else {
       return (
         <div style={{width: '100%',height: '100%',background:'#fff'}}>
           <div className='no-Content-box'></div>
